@@ -183,6 +183,13 @@ public class EntityListeners implements Listener {
         CEgg catcher = plugin.getEggManager().getEgg(split[1]);
 
         if (catcher == null) return;
+        //SLICKS CODE TO MAKE SURE THAT YOU CAN'T THROW IN CLAIMS
+        
+        if (wild.getConfig().getBoolean("GriefPrevention")) {
+            if (GriefPrevention.instance.dataStore.getClaimAt(loc, false, null) != null && checkSurroundingsClaims(loc))
+                reject(egg, catcher, false);
+                return;
+
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () ->
                 egg.getWorld().getNearbyEntities(egg.getLocation(), 3, 3, 3).stream()
